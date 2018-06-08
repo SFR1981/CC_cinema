@@ -1,5 +1,5 @@
 require_relative("../db/sql_runner")
-
+require_relative("screenings")
 class Film
 
 
@@ -65,9 +65,21 @@ def screenings()
   sql = "SELECT screenings.* FROM screenings WHERE screenings.film_id = $1"
   values = [@id]
   screenings = SqlRunner.run(sql, values)
-  reScreening.map_items(screenings)
+  Screening.map_items(screenings)
 end
 
+
+def most_popular_screening
+
+   self.screenings.length
+   number = 0
+   for screening in self.screenings
+     count = screening.tickets_sold
+     top = screening if number < count
+     number = count
+     end
+     return "most popular screening is at #{top.show_time}"
+end
 
 def self.all()
   sql = "SELECT * FROM films"

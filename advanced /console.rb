@@ -132,6 +132,21 @@ ticket9 = Ticket.new({
     'screening_id' => screening6.id })
 ticket9.save()
 
+ticket10 = Ticket.new({
+   'customer_id'=> customer4.id,
+    'screening_id' => screening6.id })
+ticket10.save()
+
+ticket11 = Ticket.new({
+   'customer_id'=> customer2.id,
+    'screening_id' => screening6.id })
+ticket11.save()
+
+ticket12 = Ticket.new({
+   'customer_id'=> customer1.id,
+    'screening_id' => screening6.id })
+ticket12.save()
+
 
 
 binding.pry

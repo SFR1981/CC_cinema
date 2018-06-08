@@ -60,7 +60,7 @@ def self.delete_all()
 end
 
 
-def self.most_popular()
+def self.most_popular_over_all()
 sql = "SELECT screening_id, count(screening_id) AS amount
 FROM tickets
 GROUP BY screening_id
@@ -71,7 +71,8 @@ screenings.id = $1"
 values = [hot_ticket]
 return SqlRunner.run(sql,values).first["show_time"]
 
-
 end
+
+
 
 end

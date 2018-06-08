@@ -42,6 +42,15 @@ def update
 end
 
 
+def tickets_sold
+sql = "SELECT tickets.* FROM tickets
+INNER JOIN screenings ON tickets.screening_id = screenings.id
+WHERE screenings.id = $1"
+values = [@id]
+SqlRunner.run(sql, values).ntuples
+end
+
+
 def self.delete_all()
   sql = "DELETE FROM screenings"
   values = []
