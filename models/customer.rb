@@ -46,6 +46,30 @@ def films()
 
 end
 
+def paying(film)  #this is for tickets in the setup
+sql = "SELECT films.* FROM films WHERE id = $1"
+values = [film.id]
+transaction = SqlRunner.run(sql,values)[0]
+self.funds -= transaction['price'].to_i
+self.update
+
+
+end
+
+def buys(film)  #this is for new tickets which appear in the tables
+sql = "SELECT films.* FROM films WHERE id = $1"
+values = [film.id]
+transaction = SqlRunner.run(sql,values)[0]
+self.funds -= transaction['price'].to_i
+self.update
+ticket = Ticket.new({
+   'customer_id'=> self.id,
+    'film_id' => film.id })
+ticket.save()
+
+
+end
+
 def self.all()
   sql = "SELECT * FROM customers"
   values = []
