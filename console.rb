@@ -1,9 +1,11 @@
 require('pry-byebug')
-require('../models/customer.rb')
-require('../models/film.rb')
-require('../models/ticket.rb')
+require('./models/customer.rb')
+require('./models/film.rb')
+require('./models/ticket.rb')
 
-
+Film.delete_all()
+Customer.delete_all()
+Ticket.delete_all()
 
 customer1 = Customer.new({
    'name' => 'Barry Chuckle','funds' => 50})

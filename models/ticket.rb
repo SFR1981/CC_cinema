@@ -27,5 +27,24 @@ ticket = SqlRunner.run(sql, values ).first()
 end
 
 
+def self.all()
+sql = "SELECT * FROM tickets"
+values = []
+tickets = SqlRunner.run(sql, values)
+return Ticket.map_items(tickets)
+
+end
+
+def self.map_items(ticket_data)
+  return ticket_data.map {|ticket| Ticket.new(ticket)}
+
+end
+
+
+def self.delete_all()
+  sql = "DELETE FROM tickets"
+  values = []
+  SqlRunner.run(sql, values)
+end
 
 end
