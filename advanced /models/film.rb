@@ -65,7 +65,7 @@ def screenings()
   sql = "SELECT screenings.* FROM screenings WHERE screenings.film_id = $1"
   values = [@id]
   screenings = SqlRunner.run(sql, values)
-  return Screening.map_items(screenings)
+  reScreening.map_items(screenings)
 end
 
 

@@ -59,4 +59,19 @@ def self.delete_all()
   SqlRunner.run(sql, values)
 end
 
+
+def self.most_popular()
+sql = "SELECT screening_id, count(screening_id) AS amount
+FROM tickets
+GROUP BY screening_id
+ORDER by amount DESC LIMIT 1"
+hot_ticket = SqlRunner.run(sql, [])[0]['screening_id']
+sql = "SELECT screenings.show_time FROM screenings WHERE
+screenings.id = $1"
+values = [hot_ticket]
+return SqlRunner.run(sql,values).first["show_time"]
+
+
+end
+
 end

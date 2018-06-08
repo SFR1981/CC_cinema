@@ -27,6 +27,20 @@ screening = SqlRunner.run(sql, values ).first()
 
 end
 
+def delete()
+  sql = "DELETE FROM screenings WHERE id = $1"
+  values = [@id]
+  SqlRunner.run(sql, values)
+
+
+end
+
+def update
+  sql = "UPDATE screenings SET (film_id, show_time) = ($1,$2) WHERE id = $3"
+  values = [@film_id, @show_time, @id]
+  SqlRunner.run(sql, values)
+end
+
 
 def self.delete_all()
   sql = "DELETE FROM screenings"
@@ -48,6 +62,7 @@ def self.map_items(screening_data)
   return screening_data.map { |screening| Screening.new(screening)}
 
   end
+
 
 
 end
