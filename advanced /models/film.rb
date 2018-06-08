@@ -38,8 +38,10 @@ end
 
 
 def customers()
-  sql = "SELECT customers.* FROM customers INNER JOIN
-  tickets ON tickets.customer_id = customers.id WHERE film_id = $1"
+  sql = "SELECT customers.* FROM customers
+INNER JOIN tickets ON customers.id = tickets.customer_id
+INNER JOIN screenings ON tickets.screening_id = screenings.id
+INNER JOIN films ON screenings.film_id = films.id WHERE films.id =  $1"
   values = [@id]
   films = SqlRunner.run(sql,values)
   return Customer.map_items(films)
@@ -49,15 +51,17 @@ def customers()
 end
 
 def number_customers()
-  sql = "SELECT customers.* FROM customers INNER JOIN
-  tickets ON tickets.customer_id = customers.id WHERE film_id = $1"
+  sql = "SELECT customers.* FROM customers
+INNER JOIN tickets ON customers.id = tickets.customer_id
+INNER JOIN screenings ON tickets.screening_id = screenings.id
+INNER JOIN films ON screenings.film_id = films.id WHERE films.id =  $1"
   values = [@id]
   return SqlRunner.run(sql,values).ntuples
-  
-
 
 
 end
+
+
 
 
 def self.all()

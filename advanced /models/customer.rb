@@ -36,8 +36,10 @@ def update
 end
 
 def films()
-  sql = "SELECT films.* FROM films INNER JOIN
-  tickets ON tickets.film_id = films.id WHERE customer_id = $1"
+  sql = "SELECT films.* FROM films
+  INNER JOIN screenings ON screenings.film_id = films.id
+  INNER JOIN tickets ON screenings.id = tickets.screening_id
+  INNER JOIN customers ON tickets.customer_id = customers.id WHERE customers.id = $1"
   values = [@id]
   films = SqlRunner.run(sql,values)
   return Film.map_items(films)
@@ -56,15 +58,19 @@ self.update
 
 end
 
-def buys(film)  #this is for new tickets which appear in the tables
+def buys(film, screening)  #this is for new tickets which appear in the tables
 sql = "SELECT films.* FROM films WHERE id = $1"
 values = [film.id]
 transaction = SqlRunner.run(sql,values)[0]
 self.funds -= transaction['price'].to_i
 self.update
+sql = "SELECT screenings.* FROM screenings WHERE screenings.id = $1 AND screenings.film_id = $2"
+values = [screening.id, film.id]
+screening_verified = SqlRunner.run(sql,values)[0]
+
 ticket = Ticket.new({
    'customer_id'=> self.id,
-    'film_id' => film.id })
+    'screening_id' => screening_verified['id'] })
 ticket.save()
 
 
@@ -77,6 +83,12 @@ SqlRunner.run(sql, values).ntuples
 
 
 end
+
+
+
+
+
+
 
 def self.all()
   sql = "SELECT * FROM customers"
