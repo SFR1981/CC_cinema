@@ -46,6 +46,7 @@ film4.save()
 film5 = Film.new({
   'title' => 'The day oven gloves were only made of paper: IMAX',
   'price' => 13})
+  film5.save()
 
 ticket1 = Ticket.new({
    'customer_id'=> customer1.id,

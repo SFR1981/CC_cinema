@@ -70,6 +70,14 @@ ticket.save()
 
 end
 
+def tickets()
+sql = "SELECT tickets.* FROM tickets WHERE customer_id = $1"
+values = [@id]
+SqlRunner.run(sql, values).ntuples
+
+
+end
+
 def self.all()
   sql = "SELECT * FROM customers"
   values = []

@@ -48,6 +48,17 @@ def customers()
 
 end
 
+def number_customers()
+  sql = "SELECT customers.* FROM customers INNER JOIN
+  tickets ON tickets.customer_id = customers.id WHERE film_id = $1"
+  values = [@id]
+  return SqlRunner.run(sql,values).ntuples
+  
+
+
+
+end
+
 
 def self.all()
   sql = "SELECT * FROM films"
