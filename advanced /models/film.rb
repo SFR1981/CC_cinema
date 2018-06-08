@@ -61,7 +61,12 @@ INNER JOIN films ON screenings.film_id = films.id WHERE films.id =  $1"
 
 end
 
-
+def screenings()
+  sql = "SELECT screenings.* FROM screenings WHERE screenings.film_id = $1"
+  values = [@id]
+  screenings = SqlRunner.run(sql, values)
+  return Screening.map_items(screenings)
+end
 
 
 def self.all()
