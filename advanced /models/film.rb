@@ -71,7 +71,6 @@ end
 
 def most_popular_screening
 
-   self.screenings.length
    number = 0
    for screening in self.screenings
      count = screening.tickets_sold
@@ -80,6 +79,18 @@ def most_popular_screening
      end
      return "most popular screening is at #{top.show_time}"
 end
+
+def money_made
+total_revenue = 0
+for screening in self.screenings
+  total_sold = screening.tickets_sold
+  amount = (total_sold  * @price)
+  total_revenue += amount
+end
+return "#{@title} has made £#{total_revenue}"
+
+end
+
 
 def self.all()
   sql = "SELECT * FROM films"

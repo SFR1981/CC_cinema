@@ -48,17 +48,13 @@ def films()
 
 end
 
-def paying(film)  #this is for tickets in the setup
-sql = "SELECT films.* FROM films WHERE id = $1"
-values = [film.id]
-transaction = SqlRunner.run(sql,values)[0]
-self.funds -= transaction['price'].to_i
-self.update
 
 
-end
 
-def buys(film, screening)  #this is for new tickets which appear in the tables
+
+def buys(film, screening)
+
+return "sold out, sorry" if screening.tickets_sold() >= 20
 sql = "SELECT films.* FROM films WHERE id = $1"
 values = [film.id]
 transaction = SqlRunner.run(sql,values)[0]
