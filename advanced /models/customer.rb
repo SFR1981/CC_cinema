@@ -55,18 +55,16 @@ end
 def buys(film, screening)
 
 return "sold out, sorry" if screening.tickets_sold() >= 20
+return "customer doesn't have sufficient funds" if self.funds() < film.price()
+return "that screening is not for the chosen film!" if film.id() != screening.film_id
 sql = "SELECT films.* FROM films WHERE id = $1"
 values = [film.id]
 transaction = SqlRunner.run(sql,values)[0]
 self.funds -= transaction['price'].to_i
 self.update
-sql = "SELECT screenings.* FROM screenings WHERE screenings.id = $1 AND screenings.film_id = $2"
-values = [screening.id, film.id]
-screening_verified = SqlRunner.run(sql,values)[0]
-
 ticket = Ticket.new({
    'customer_id'=> self.id,
-    'screening_id' => screening_verified['id'] })
+    'screening_id' => screening.id})
 ticket.save()
 
 
